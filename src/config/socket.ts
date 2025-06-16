@@ -1,3 +1,4 @@
+// src/config/socket.ts
 import { Server as HttpServer } from 'http';
 import { Server } from 'socket.io';
 import { logger } from '../utils/logger';
@@ -11,7 +12,7 @@ export const getIO = (): Server => {
   return io;
 };
 
-export const setupSocketIO = (httpServer: HttpServer): void => {
+export const setupSocketIO = (httpServer: HttpServer): Server => {
   io = new Server(httpServer, {
     cors: {
       origin: process.env.NODE_ENV === 'production'
@@ -23,4 +24,5 @@ export const setupSocketIO = (httpServer: HttpServer): void => {
   });
 
   logger.info('Socket.io server initialized');
+  return io;
 };

@@ -1,3 +1,5 @@
+//src/routes/messageRoutes.ts
+
 import express from 'express';
 import { getMessages, sendMessage, markAsRead } from '../controllers/messageController';
 import { protect } from '../middlewares/authMiddleware';

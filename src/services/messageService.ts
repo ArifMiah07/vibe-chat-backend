@@ -1,3 +1,5 @@
+// src/services/messageService.ts
+
 import Message, { IMessage } from '../models/Message';
 import User from '../models/User';
 import { MessageInput } from '../utils/validators';

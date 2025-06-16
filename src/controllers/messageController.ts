@@ -1,3 +1,4 @@
+// src/controllers/messageController.ts
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Message from '../models/Message';
@@ -95,15 +96,20 @@ export const sendMessage = async (req: Request, res: Response): Promise<void> =>
       .populate('sender', 'name email')
       .populate('receiver', 'name email');
     
-    // Emit socket event
-    const io = getIO();
-    io.to(receiverId).emit('newMessage', populatedMessage);
+    // Safely emit socket event (check if Socket.io is initialized)
+    try {
+      const io = getIO();
+      io.to(receiverId).emit('newMessage', populatedMessage);
+    } catch (socketError) {
+      // Log but don't fail the request if Socket.io isn't ready
+      logger.warn('Socket.io not available for real-time notification', socketError);
+    }
     
     res.status(201).json({
       success: true,
       data: message
     });
-  } catch (error:any) {
+  } catch (error: any) {
     logger.error('Send message error', error);
     
     if (error.name === 'ZodError') {

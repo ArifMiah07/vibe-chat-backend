@@ -1,3 +1,5 @@
+// sockets/userHandler.ts
+
 import { Socket } from 'socket.io';
 import { IUser } from '../models/User';
 import { logger } from '../utils/logger';
